@@ -1,0 +1,166 @@
+# Expense Distributor Web App - Project Plan
+
+## Project Overview
+A simple web application to help groups of friends track and split expenses during trips or events. Users can create accounts, form groups, add expenses, and the app will calculate how much each person owes or is owed, ensuring fair distribution based on individual contributions.
+
+## Core Features
+1. **User Authentication**
+   - Sign up, login, and logout using Firebase Authentication.
+2. **Group Management**
+   - Create a group (e.g., "ABC Trip").
+   - Invite friends to join the group via email or invite link.
+   - Join groups via invitation.
+3. **Expense Tracking**
+   - Add expenses (amount, description, paid by whom, date).
+   - View all group expenses in a list.
+4. **Expense Distribution Logic**
+   - Calculate each member's total contribution.
+   - Compute how much each member owes or is owed.
+   - Display a summary showing who should pay whom and how much.
+5. **User Interface (UI)**
+   - Clean, modern, and mobile-friendly design.
+   - Dashboard for groups and expenses.
+   - Forms for adding expenses and managing groups.
+   - Summary view for settlements.
+6. **Database**
+   - Use Firebase Firestore for storing users, groups, and expenses.
+
+## UI/UX Plan
+- **Landing Page:** App intro, login/signup options.
+- **Dashboard:** List of groups user belongs to, option to create/join group.
+- **Group Page:**
+  - Group details, members list, invite option.
+  - List of expenses with add/edit/delete options.
+  - Settlement summary.
+- **Add Expense Modal/Page:** Form to add new expense (amount, description, paid by, date).
+- **Responsive Design:** Works well on desktop and mobile.
+
+## UI Design & Pages Plan
+
+### Main Pages
+1. **Landing Page**
+   - App introduction
+   - Login and Signup buttons
+   - Simple, attractive hero section
+2. **Signup Page**
+   - User registration form (email, password, confirm password)
+   - Link to Login page
+3. **Login Page**
+   - User login form (email, password)
+   - Link to Signup page
+4. **Dashboard Page**
+   - List of groups user belongs to
+   - Button to create a new group
+   - Option to join a group via invite code
+   - Logout button
+5. **Create Group Page/Modal**
+   - Form to create a new group (group name, description)
+6. **Group Page**
+   - Group details (name, description)
+   - List of group members
+   - Invite members (show invite code or email invite)
+   - List of expenses for the group
+   - Button to add new expense
+   - Settlement summary (who owes whom)
+7. **Add Expense Modal/Page**
+   - Form to add new expense (amount, description, paid by, date)
+8. **Profile/Settings Page (Optional)**
+   - User info, change password, etc.
+
+### Navigation
+- Top navigation bar or sidebar for switching between Dashboard, Profile, and Logout
+- Breadcrumbs or back buttons for easy navigation
+
+### UI Components
+- Forms (login, signup, add group, add expense)
+- Lists (groups, expenses, members)
+- Modals (add expense, invite member)
+- Cards (group summary, expense summary)
+- Responsive layout for mobile and desktop
+
+### Page Flow
+- User lands on Landing Page → Login/Signup
+- After login, user sees Dashboard
+- User can create/join group
+- Inside a group, user can add expenses, invite members, and view settlements
+
+## Technical Stack
+- **Frontend:** HTML, CSS, JavaScript
+- **Backend/Database:** Firebase Authentication & Firestore
+
+## Implementation Steps
+1. Set up Firebase project (Auth & Firestore).
+2. Build authentication (signup/login/logout).
+3. Create group management features.
+4. Implement expense tracking and storage.
+5. Develop expense distribution logic.
+6. Design and build UI components.
+7. Test and refine user experience.
+
+## Firebase Integration & Cloud Migration Steps
+
+### 1. Set Up Firebase Project
+- Go to https://console.firebase.google.com/ and create a new project (e.g., "Expense Distributor").
+- Enable **Authentication** (Email/Password) and **Firestore Database** in the Firebase console.
+- Add a new web app in Firebase and copy the config snippet.
+
+### 2. Add Firebase SDK to Your App
+- In your HTML files (e.g., `signup.html`, `login.html`, etc.), add Firebase scripts before your JS:
+  ```html
+  <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js"></script>
+  <script>
+    // Your Firebase config here
+    const firebaseConfig = { ... };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+  </script>
+  ```
+
+### 3. Implement Firebase Authentication
+- **Signup:**
+  - Use `auth.createUserWithEmailAndPassword(email, password)`.
+  - Store user info in Firestore (e.g., name, email).
+- **Login:**
+  - Use `auth.signInWithEmailAndPassword(email, password)`.
+- **Logout:**
+  - Use `auth.signOut()`.
+- **Auth State:**
+  - Use `auth.onAuthStateChanged()` to redirect users if not logged in.
+
+### 4. Migrate Data to Firestore
+- **Groups:**
+  - Store each group as a document in a `groups` collection (fields: name, desc, members, etc.).
+- **Members:**
+  - Store members as an array in each group document, or as subcollections.
+- **Expenses:**
+  - Store expenses as a subcollection under each group document.
+- **User Groups:**
+  - Store which groups a user belongs to (e.g., in user doc or by querying group members).
+
+### 5. Update All JS Logic
+- Replace all `localStorage` reads/writes with Firestore queries and updates.
+- Use real-time listeners (`onSnapshot`) for live updates.
+- Update group join logic to add the user to the group in Firestore.
+
+### 6. Test All Flows
+- Test signup, login, and logout with real Firebase accounts.
+- Test creating, joining, and leaving groups.
+- Test adding, editing, and deleting expenses.
+- Test settlement calculations and UI updates.
+- Test on both desktop and mobile devices.
+
+### 7. Polish & Secure
+- Add error handling for all Firebase operations.
+- Secure Firestore with rules (only group members can read/write their groups).
+- Polish UI/UX as needed.
+
+### 8. Optional Advanced Features
+- Add notifications, export, or advanced settlement logic.
+- Add navigation bar for Dashboard/Profile/Logout.
+- Add user avatars or profile pictures.
+
+---
+This plan covers the main features and steps for building the Expense Distributor web app. Next, we can start setting up the project structure and initializing Firebase.

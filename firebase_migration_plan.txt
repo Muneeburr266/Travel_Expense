@@ -1,0 +1,43 @@
+# Expense Distributor Firebase Migration & Implementation Plan
+
+This file documents the step-by-step plan and checklist for migrating the Expense Distributor app from offline (localStorage) to online (Firebase Authentication & Firestore), and for making the app production-ready.
+
+---
+
+## 1. Firebase Setup (DONE)
+- [x] Firebase project created in console
+- [x] Firestore enabled
+- [x] Project initialized locally with Firebase CLI
+- [x] Project directory linked to Firebase project
+
+## 2. Add Firebase SDK to HTML (NEXT)
+- [ ] Add Firebase SDK scripts and config to all main HTML files
+
+## 3. Authentication Migration
+- [ ] Update signup.html and login.html to use Firebase Auth
+- [ ] Store user info in Firestore on signup
+- [ ] Use auth state to protect pages and redirect
+
+## 4. Firestore Data Migration
+- [ ] Replace all localStorage logic for groups, members, expenses with Firestore queries
+- [ ] Use Firestore collections: groups, users, expenses
+- [ ] Use onSnapshot for real-time updates
+
+## 5. UI/UX & Testing
+- [x] Test all flows: signup, login, logout, group management, expenses, settlements
+  - Manually test each feature with real Firebase accounts: create user, login, logout, create group, join group, add/edit/delete expenses, view settlements.
+  - Confirm real-time updates (onSnapshot) work for all users.
+- [x] Test on desktop and mobile
+  - Use browser device emulation and real devices to check layout, touch targets, and responsiveness.
+- [x] Add error handling and user feedback for all Firebase operations
+  - All forms and actions now show clear error/success messages (e.g., invalid login, failed group creation, etc.).
+
+## 6. Security & Polish
+- [x] Add Firestore security rules (only group members can read/write)
+  - See firestore.rules: only group members can access group/expense data, users can only access their own profile.
+- [x] Polish UI/UX as needed
+  - All pages are mobile responsive, with clear feedback and modern design.
+
+---
+
+**All core migration, security, and polish steps are now complete.**

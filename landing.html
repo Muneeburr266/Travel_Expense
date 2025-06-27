@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Distributor - Landing</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #43cea2 0%, #185a9d 100%);
+        }
+        .funky-header {
+            background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+            color: #fff;
+            padding: 2rem 0 1.2rem 0;
+            text-align: center;
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
+            box-shadow: 0 4px 24px #185a9d33;
+            position: relative;
+        }
+        .funky-header h1 {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-size: 2.7rem;
+            letter-spacing: 3px;
+            margin: 0;
+            text-shadow: 0 2px 12px #185a9d33, 0 1px 0 #fff;
+            display: inline-block;
+            padding: 0 1.5rem;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.07);
+        }
+        .funky-header .subtitle {
+            font-size: 1.1rem;
+            margin-top: 0.7rem;
+            color: #e0f7f4;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+        .landing-main {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+            gap: 3rem;
+        }
+        .landing-info {
+            background: #fff;
+            border-radius: 22px;
+            box-shadow: 0 6px 32px rgba(24,90,157,0.13);
+            padding: 3rem 2.5rem;
+            max-width: 440px;
+            min-width: 300px;
+            text-align: left;
+            border: 2px solid #43cea2;
+            position: relative;
+            overflow: hidden;
+        }
+        .landing-info:before {
+            content: '';
+            position: absolute;
+            top: -60px; left: -60px;
+            width: 120px; height: 120px;
+            background: #43cea2;
+            opacity: 0.12;
+            border-radius: 50%;
+            z-index: 0;
+        }
+        .landing-info h2 {
+            color: #185a9d;
+            font-size: 2.3rem;
+            margin-bottom: 1rem;
+            z-index: 1;
+            position: relative;
+        }
+        .landing-info p {
+            color: #185a9d;
+            font-size: 1.15rem;
+            margin-bottom: 2rem;
+            z-index: 1;
+            position: relative;
+        }
+        .landing-btns {
+            display: flex;
+            gap: 1rem;
+            z-index: 1;
+            position: relative;
+            flex-wrap: wrap;
+        }
+        .btn {
+            background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 0.7rem 1.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(24,90,157,0.10);
+            transition: background 0.2s, color 0.2s, transform 0.2s;
+        }
+        .btn:hover {
+            background: linear-gradient(90deg, #185a9d 0%, #43cea2 100%);
+            color: #fff;
+            transform: translateY(-2px) scale(1.04);
+        }
+        .btn.alt {
+            background: #fff;
+            color: #185a9d;
+            border: 2px solid #43cea2;
+        }
+        .btn.alt:hover {
+            background: #43cea2;
+            color: #fff;
+        }
+        .landing-visual {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .landing-visual img {
+            width: 350px;
+            max-width: 80vw;
+            border-radius: 22px;
+            box-shadow: 0 4px 16px rgba(24,90,157,0.13);
+            border: 2px solid #43cea2;
+        }
+        .tagline {
+            margin-top: 1.5rem;
+            font-size: 1.15rem;
+            color: #43cea2;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 0 1px 4px #185a9d22;
+            text-align: center;
+        }
+        @media (max-width: 900px) {
+            .landing-main {
+                flex-direction: column-reverse;
+                gap: 2rem;
+                min-height: unset;
+                padding: 1rem;
+            }
+            .landing-visual img {
+                width: 90vw;
+                max-width: 350px;
+            }
+            .landing-info {
+                max-width: 98vw;
+                min-width: unset;
+                padding: 2rem 1rem;
+                text-align: center;
+            }
+            .funky-header h1 {
+                font-size: 2rem;
+                padding: 0 0.5rem;
+            }
+        }
+        @media (max-width: 500px) {
+            .funky-header {
+                padding: 1.2rem 0 0.7rem 0;
+                border-bottom-left-radius: 20px;
+                border-bottom-right-radius: 20px;
+            }
+            .landing-info {
+                padding: 1.2rem 0.5rem;
+            }
+            .landing-btns {
+                flex-direction: column;
+                gap: 0.7rem;
+            }
+            .landing-visual img {
+                width: 98vw;
+                max-width: 99vw;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="funky-header">
+        <h1>Expense Distributor</h1>
+        <div class="subtitle">For Funky Travelers & Friends Who Love Fun!</div>
+    </div>
+    <main class="landing-main">
+        <div class="landing-info">
+            <h2>Travel Together, Settle Smarter</h2>
+            <p>Adventure with friends, not with numbers! Effortlessly split travel costs, track every rupee, and keep your journeys stress-free. Designed for group trips, road adventures, and unforgettable memories.</p>
+            <div class="landing-btns">
+                <a href="signup.html" class="btn">Sign Up</a>
+                <a href="login.html" class="btn alt">Login</a>
+            </div>
+        </div>
+        <div class="landing-visual">
+            <img src="https://img.freepik.com/free-vector/friends-traveling-together-concept-illustration_114360-18397.jpg" alt="Funky Traveler Boys">
+            <div class="tagline">Travel. Share. Relax. We handle the math!</div>
+        </div>
+    </main>
+</body>
+</html>

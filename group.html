@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group - Expense Distributor</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body { background: linear-gradient(135deg, #43cea2 0%, #185a9d 100%); }
+        .group-header {
+            background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+            color: #fff;
+            padding: 1.5rem 0 1rem 0;
+            text-align: center;
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            box-shadow: 0 4px 24px #185a9d33;
+        }
+        .group-header h1 {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-size: 2rem;
+            letter-spacing: 2px;
+            margin: 0;
+            text-shadow: 0 2px 12px #185a9d33, 0 1px 0 #fff;
+            display: inline-block;
+            padding: 0 1rem;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.07);
+        }
+        .group-container {
+            max-width: 600px;
+            margin: 2.5rem auto;
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 4px 24px #185a9d22;
+            padding: 2.5rem 2rem 2rem 2rem;
+            border: 2px solid #43cea2;
+        }
+        .group-section { margin-bottom: 2rem; }
+        .group-section h3 { color: #185a9d; margin-bottom: 0.7rem; }
+        .group-details { margin-bottom: 1.2rem; }
+        .group-details span { display: block; color: #185a9d; font-weight: 500; }
+        .member-list, .expense-list { list-style: none; padding: 0; }
+        .member-list li, .expense-list li { padding: 0.5rem 0; border-bottom: 1px solid #e0e0e0; }
+        .group-actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+        .group-actions .btn { min-width: 120px; }
+        .settlement { background: #f1f5fb; border-radius: 8px; padding: 1rem; margin-top: 1.5rem; color: #185a9d; }
+        @media (max-width: 600px) {
+            .group-header h1 { font-size: 1.3rem; }
+            .group-container { padding: 1.2rem 0.5rem; max-width: 98vw; }
+        }
+    </style>
+</head>
+<body>
+    <div class="group-header">
+        <h1>Expense Distributor</h1>
+    </div>
+    <div class="group-container">
+        <div class="group-section group-details">
+            <h3>Group Details</h3>
+            <span id="groupName"></span>
+            <span id="groupDesc" style="font-size:0.98rem;color:#888;"></span>
+        </div>
+        <div class="group-section">
+            <h3>Members</h3>
+            <ul class="member-list" id="memberList"></ul>
+            <div class="group-actions">
+                <button class="btn" onclick="addMember()">+ Add Member</button>
+                <button class="btn" onclick="showInviteCode()">Show Invite Code</button>
+            </div>
+        </div>
+        <div class="group-section">
+            <h3>Expenses</h3>
+            <ul class="expense-list" id="expenseList"></ul>
+            <button class="btn" onclick="showAddExpense()">+ Add Expense</button>
+        </div>
+        <div class="settlement" id="settlement"></div>
+    </div>
+    <!-- Add Expense Modal -->
+    <div id="addExpenseModal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:#0008;z-index:10;align-items:center;justify-content:center;">
+        <div style="background:#fff;padding:2rem 1.5rem;border-radius:12px;max-width:350px;width:90vw;">
+            <h3 style="color:#185a9d;">Add Expense</h3>
+            <input type="text" id="expDesc" placeholder="Description" style="margin-bottom:1rem;width:100%;padding:0.7rem;">
+            <input type="number" id="expAmount" placeholder="Amount" style="margin-bottom:1rem;width:100%;padding:0.7rem;">
+            <input type="text" id="expPaidBy" placeholder="Paid By (member name)" style="margin-bottom:1rem;width:100%;padding:0.7rem;">
+            <button class="btn" onclick="addExpense()">Add</button>
+            <button class="btn" style="background:#eee;color:#185a9d;margin-left:0.5rem;" onclick="closeAddExpense()">Cancel</button>
+        </div>
+    </div>
+    <script src="js/group.js"></script>
+    <script>
+        // PROTECT GROUP PAGE: REDIRECT IF NOT LOGGED IN
+        auth.onAuthStateChanged(user => {
+          if (!user) window.location.href = 'login.html';
+        });
+        // LOAD GROUP DATA FROM FIRESTORE
+        async function loadGroup() {
+          const params = new URLSearchParams(window.location.search);
+          const groupId = params.get('g');
+          if (!groupId) return;
+          db.collection('groups').doc(groupId).onSnapshot(doc => {
+            if (!doc.exists) {
+              document.getElementById('groupDetails').innerHTML = '<div style="color:#ff512f">Group not found.</div>';
+              return;
+            }
+            const group = doc.data();
+            document.getElementById('groupName').textContent = group.name;
+            document.getElementById('groupDesc').textContent = group.desc || '';
+            // Load members and expenses (implement as needed)
+          });
+        }
+        document.addEventListener('DOMContentLoaded', loadGroup);
+        document.getElementById('addExpenseModal').addEventListener('click', function(e){if(e.target===this)closeAddExpense();});
+    </script>
+</body>
+</html>

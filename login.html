@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Expense Distributor</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #43cea2 0%, #185a9d 100%);
+        }
+        .auth-header {
+            background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+            color: #fff;
+            padding: 1.5rem 0 1rem 0;
+            text-align: center;
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            box-shadow: 0 4px 24px #185a9d33;
+        }
+        .auth-header h1 {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-size: 2rem;
+            letter-spacing: 2px;
+            margin: 0;
+            text-shadow: 0 2px 12px #185a9d33, 0 1px 0 #fff;
+            display: inline-block;
+            padding: 0 1rem;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.07);
+        }
+        .auth-container {
+            max-width: 400px;
+            margin: 2.5rem auto;
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 4px 24px #185a9d22;
+            padding: 2.5rem 2rem 2rem 2rem;
+            border: 2px solid #43cea2;
+        }
+        .auth-container h2 {
+            color: #185a9d;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .auth-container form {
+            display: flex;
+            flex-direction: column;
+        }
+        .auth-container input {
+            margin-bottom: 1.2rem;
+            border: 1.5px solid #43cea2;
+            border-radius: 6px;
+            padding: 0.7rem;
+            font-size: 1rem;
+        }
+        .auth-container .btn {
+            margin-top: 0.5rem;
+            background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 0.7rem 1.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(24,90,157,0.10);
+            transition: background 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+        .auth-container .btn:after {
+            content: '';
+            position: absolute;
+            left: -75%;
+            top: 0;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(120deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 100%);
+            transform: skewX(-20deg);
+            transition: left 0.5s;
+        }
+        .auth-container .btn:hover:after {
+            left: 120%;
+        }
+        .auth-container .btn:hover {
+            background: linear-gradient(90deg, #185a9d 0%, #43cea2 100%);
+            color: #fff;
+            transform: translateY(-2px) scale(1.04);
+            box-shadow: 0 6px 24px #185a9d33;
+        }
+        .auth-container .switch-link {
+            margin-top: 1.2rem;
+            text-align: center;
+        }
+        .auth-container .switch-link a {
+            color: #43cea2;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .auth-container .switch-link a:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 600px) {
+            .auth-header h1 { font-size: 1.3rem; }
+            .auth-container { padding: 1.2rem 0.5rem; max-width: 98vw; }
+            .auth-container input { font-size: 0.98rem; }
+        }
+        @media (max-width: 400px) {
+            .auth-header { padding: 1rem 0 0.5rem 0; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px; }
+            .auth-container { padding: 0.7rem 0.2rem; }
+            .auth-header h1 { font-size: 1rem; }
+        }
+    </style>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js"></script>
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyAENWLrjim2DiWR0WPZGSxWQ_gAFJIeX2s",
+        authDomain: "expensesplit-5561f.firebaseapp.com",
+        projectId: "expensesplit-5561f",
+        storageBucket: "expensesplit-5561f.appspot.com",
+        messagingSenderId: "495888339876",
+        appId: "1:495888339876:web:36529a1b1ec26fa997e731",
+        measurementId: "G-T9MY335YRF"
+      };
+      firebase.initializeApp(firebaseConfig);
+      var auth = firebase.auth();
+      var db = firebase.firestore();
+    </script>
+</head>
+<body>
+    <div class="auth-header">
+        <h1>Expense Distributor</h1>
+    </div>
+    <div class="auth-container">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <input type="email" id="loginEmail" placeholder="Email" required>
+            <input type="password" id="loginPassword" placeholder="Password" required>
+            <button type="submit" class="btn">Login</button>
+        </form>
+        <div class="switch-link">
+            Don't have an account? <a href="signup.html">Sign Up</a>
+        </div>
+        <div id="loginMsg" style="margin-top:1rem;color:#185a9d;text-align:center;"></div>
+    </div>
+    <script>
+        // DEBUG: Log Firebase and auth object
+        console.log('Firebase:', firebase);
+        console.log('Firebase Auth:', firebase.auth);
+        console.log('auth:', auth);
+        // LOGIN WITH FIREBASE AUTH
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+          e.preventDefault();
+          const email = document.getElementById('loginEmail').value.trim();
+          const password = document.getElementById('loginPassword').value;
+          const msg = document.getElementById('loginMsg');
+          msg.textContent = '';
+          if (!email || !password) {
+            msg.textContent = 'All fields are required.';
+            msg.style.color = '#ff512f';
+            return;
+          }
+          try {
+            if (!auth) throw new Error('auth is undefined');
+            if (!auth.signInWithEmailAndPassword) throw new Error('signInWithEmailAndPassword is not a function on auth');
+            await auth.signInWithEmailAndPassword(email, password);
+            msg.textContent = 'Login successful! Redirecting...';
+            msg.style.color = '#43cea2';
+            setTimeout(() => { window.location.href = 'dashboard.html'; }, 1200);
+          } catch (err) {
+            msg.textContent = err.message;
+            msg.style.color = '#ff512f';
+          }
+        });
+        // REDIRECT IF LOGGED IN
+        auth.onAuthStateChanged(user => {
+          if (user) window.location.href = 'dashboard.html';
+        });
+    </script>
+</body>
+</html>

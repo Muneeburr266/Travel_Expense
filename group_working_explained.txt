@@ -1,0 +1,73 @@
+# Expense Distributor - Group Page Inner Workings Explained
+
+This document explains how the core logic of the Expense Distributor app works for a group, including group details, members, expenses, and settlement calculations. The explanation is based on the example:
+
+---
+**Group Details**
+- Name: naran travel
+- Description: naran travel group where we contribute all the things money budget
+
+**Members**
+- muneeb
+- kashan
+- talal
+
+**Expenses**
+- nashata - ₹200 (by kashan)
+
+**Settlement**
+- muneeb: owes ₹66.67
+- kashan: gets ₹133.33
+- talal: owes ₹66.67
+
+---
+
+## 1. Data Storage (localStorage)
+- All group, member, and expense data is stored in the browser's localStorage as JSON.
+- Each group has an index (e.g., 0 for the first group).
+- Members and expenses are stored as objects keyed by group index.
+
+## 2. Members
+- Each group has a list of members (e.g., ["muneeb", "kashan", "talal"]).
+- Members can be added, edited, deleted, or can leave the group.
+- When a new member joins (via invite code), their name is added to the group's member list.
+
+## 3. Expenses
+- Each expense has a description, amount, and the member who paid (e.g., {desc: "nashata", amount: 200, paidBy: "kashan"}).
+- Expenses are listed for the group and can be added, edited, or deleted.
+
+## 4. Settlement Calculation
+- The app calculates how much each member owes or is owed:
+  1. **Total Paid Per Member:**
+     - For each member, sum the amounts they paid.
+     - Example: kashan paid ₹200, others paid ₹0.
+  2. **Total Expenses:**
+     - Sum all expenses (₹200).
+  3. **Per Head Share:**
+     - Divide total expenses by number of members (₹200 / 3 = ₹66.67).
+  4. **Net Balance:**
+     - For each member: `net = paid - perHead`.
+     - muneeb: 0 - 66.67 = -66.67 (owes)
+     - kashan: 200 - 66.67 = 133.33 (gets)
+     - talal: 0 - 66.67 = -66.67 (owes)
+- The UI displays who owes or gets money, making it easy to settle up.
+
+## 5. Actions & UI
+- **Edit/Delete/Leave:** Each member and expense has buttons for editing, deleting, or leaving the group, with confirmation dialogs.
+- **Add Member/Expense:** Prompts for details and updates localStorage and the UI.
+- **Show Invite Code:** Displays a code that others can use to join the group.
+
+## 6. Example Flow
+1. Group is created with members: muneeb, kashan, talal.
+2. kashan adds an expense: nashata, ₹200.
+3. The app recalculates settlement:
+   - Each member should pay ₹66.67.
+   - kashan paid ₹200, so others owe him.
+4. The UI shows the updated balances.
+
+## 7. Offline-First
+- All logic works offline using localStorage.
+- When migrated to Firebase, the same logic will apply, but data will sync across devices.
+
+---
+This is how the Expense Distributor app manages group expenses, members, and settlements behind the scenes.

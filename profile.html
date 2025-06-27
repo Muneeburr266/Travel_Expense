@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile/Settings - Expense Distributor</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Profile/Settings Page Content -->
+    <div class="profile-header">
+        <h1>Profile & Settings</h1>
+    </div>
+    <div class="profile-container">
+        <form id="profileForm" autocomplete="off" onsubmit="saveProfile(event)">
+            <label for="profileName">Name</label>
+            <input type="text" id="profileName" placeholder="Your Name" required>
+            <label for="profileEmail">Email</label>
+            <input type="email" id="profileEmail" placeholder="Your Email" required>
+            <label for="profilePassword">Password</label>
+            <input type="password" id="profilePassword" placeholder="Change Password">
+            <button class="btn" type="submit">Save Changes</button>
+        </form>
+        <div id="profileMsg" style="margin-top:1rem;color:#185a9d;"></div>
+        <button class="btn" style="background:#ff512f;color:#fff;margin-top:2rem;" onclick="logout()">Logout</button>
+    </div>
+    <script>
+    // Profile localStorage key
+    const PROFILE_KEY = 'expense_distributor_profile';
+    function loadProfile() {
+        const data = JSON.parse(localStorage.getItem(PROFILE_KEY) || '{}');
+        document.getElementById('profileName').value = data.name || '';
+        document.getElementById('profileEmail').value = data.email || '';
+    }
+    function saveProfile(e) {
+        e.preventDefault();
+        const name = document.getElementById('profileName').value.trim();
+        const email = document.getElementById('profileEmail').value.trim();
+        const password = document.getElementById('profilePassword').value;
+        if (!name || !email) {
+            showMsg('Name and email are required.', true);
+            return;
+        }
+        let data = { name, email };
+        if (password) data.password = password;
+        localStorage.setItem(PROFILE_KEY, JSON.stringify(data));
+        showMsg('Profile updated successfully!');
+        document.getElementById('profilePassword').value = '';
+    }
+    function showMsg(msg, isError) {
+        const el = document.getElementById('profileMsg');
+        el.textContent = msg;
+        el.style.color = isError ? '#ff512f' : '#185a9d';
+    }
+    function logout() {
+        window.location.href = 'login.html';
+    }
+    document.addEventListener('DOMContentLoaded', loadProfile);
+    </script>
+    <style>
+    body { background: linear-gradient(135deg, #43cea2 0%, #185a9d 100%); }
+    .profile-header {
+        background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+        color: #fff;
+        padding: 1.5rem 0 1rem 0;
+        text-align: center;
+        border-bottom-left-radius: 30px;
+        border-bottom-right-radius: 30px;
+        box-shadow: 0 4px 24px #185a9d33;
+    }
+    .profile-header h1 {
+        font-family: 'Segoe UI', Arial, sans-serif;
+        font-size: 2rem;
+        letter-spacing: 2px;
+        margin: 0;
+        text-shadow: 0 2px 12px #185a9d33, 0 1px 0 #fff;
+        display: inline-block;
+        padding: 0 1rem;
+        border-radius: 12px;
+        background: rgba(255,255,255,0.07);
+    }
+    .profile-container {
+        max-width: 400px;
+        margin: 2.5rem auto;
+        background: #fff;
+        border-radius: 18px;
+        box-shadow: 0 4px 24px #185a9d22;
+        padding: 2.5rem 2rem 2rem 2rem;
+        border: 2px solid #43cea2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    #profileForm {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    #profileForm label {
+        color: #185a9d;
+        font-weight: 500;
+    }
+    #profileForm input {
+        padding: 0.7rem;
+        border-radius: 6px;
+        border: 1px solid #43cea2;
+        font-size: 1rem;
+    }
+    .btn {
+        background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 0.7rem 1.2rem;
+        font-size: 1rem;
+        cursor: pointer;
+        font-weight: bold;
+        margin-top: 1rem;
+        transition: background 0.2s;
+    }
+    .btn:hover { background: #185a9d; }
+    @media (max-width: 600px) {
+        .profile-header h1 { font-size: 1.3rem; }
+        .profile-container { padding: 1.2rem 0.5rem; max-width: 98vw; }
+    }
+    </style>
+</body>
+</html>
